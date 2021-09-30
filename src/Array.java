@@ -1,44 +1,8 @@
-public class Array<Type>
+public class Array
 {
-    private Type[] arr;
-    public final int length;
-    public Array(Type[] arr)
+    public static <Type> String toString(Type[] arr)
     {
-        this.arr = arr;
-        this.length = arr.length;
-    }
-
-    public Array(final int length)
-    {
-        this.length = length;
-    }
-
-    public void set(final int index, Type data)
-    {
-        if(outOfBounds(index))
-        {
-            throw new IndexOutOfBoundsException();
-        }
-        arr[index] = data;
-    }
-
-    public void setArray(Type[] arr)
-    {
-        this.arr = arr;
-    }
-
-    public Type get(final int index)
-    {
-        if(outOfBounds(index))
-        {
-            throw new IndexOutOfBoundsException();
-        }
-        return arr[index];
-    }
-
-    @Override
-    public String toString()
-    {
+        int length = arr.length;
         StringBuilder contents = new StringBuilder("[");
         for(int i = 0; i < length - 1; ++i)
         {
@@ -47,10 +11,13 @@ public class Array<Type>
         contents.append(arr[length - 1]).append("]");
         return contents.toString();
     }
-
-    //Checks if an index is in bounds
-    private boolean outOfBounds(int index)
+    public static <Type> LinkedList<Type> toLinkedList(Type[] arr)
     {
-        return index > length || index < 0;
+        LinkedList<Type> list = new LinkedList<>();
+        for(Type data : arr)
+        {
+            list.add(data);
+        }
+        return list;
     }
 }

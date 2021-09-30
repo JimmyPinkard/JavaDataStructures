@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import trees.BinarySearchTree;
 
 public class Tests
 {
@@ -9,7 +9,11 @@ public class Tests
         testDoublyLinkedList();
         testCircularlyLinkedList();
          */
+        BinarySearchTree bst = new BinarySearchTree();
+        bst.addAll(new double[]{10, 0, 20, 5, 15});
+        System.out.println(bst.get(15));
     }
+    /*
     public static void testSingleLinkedList()
     {
         LinkedList<Integer> nums = new LinkedList<>();
@@ -26,8 +30,9 @@ public class Tests
             nums.set(i, nums.get(i) * 2);
         }
         System.out.println(nums);
-        System.out.println(Arrays.toString(nums.toArray()));
+        System.out.println(Array.toString(nums.toArray()));
     }
+
     public static void testDoublyLinkedList()
     {
         DoublyLinkedList<Integer> nums = new DoublyLinkedList<>();
@@ -49,6 +54,7 @@ public class Tests
             System.out.println(nums.getNode(i).prev() * i);
         }
     }
+
     public static void testCircularlyLinkedList()
     {
         CircularlyLinkedList<Integer> nums = new CircularlyLinkedList<>();
@@ -67,4 +73,5 @@ public class Tests
         System.out.println(nums);
         System.out.println(nums.peek().equals(nums.getNode(nums.size() - 1).head()));
     }
+    */
 }

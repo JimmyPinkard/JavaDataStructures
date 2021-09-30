@@ -1,8 +1,8 @@
 public class LinkedList<Type>
 {
-    protected Type data;
-    protected LinkedList<Type> next;
-    protected int size;
+    private Type data;
+    private LinkedList<Type> next;
+    private int size;
     public LinkedList()
     {
         this.data = null;
@@ -121,8 +121,13 @@ public class LinkedList<Type>
     @Override
     public String toString()
     {
-        Array<Type> arr = new Array<>(toArray());
-        return (arr.toString());
+        StringBuilder contents = new StringBuilder("[");
+        for(int i = 0; i < size - 1; ++i)
+        {
+            contents.append(getNode(i)).append(", ");
+        }
+        contents.append(getNode(size - 1)).append("]");
+        return contents.toString();
     }
 
     //Utility functions
