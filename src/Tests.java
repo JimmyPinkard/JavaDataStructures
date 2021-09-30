@@ -1,20 +1,18 @@
-import trees.BinarySearchTree;
+import trees.BinaryTree;
 
 public class Tests
 {
     public static void main(final String[] args)
     {
         /*
-        testSingleLinkedList();
+        testLinkedList();
         testDoublyLinkedList();
         testCircularlyLinkedList();
          */
-        BinarySearchTree bst = new BinarySearchTree();
-        bst.addAll(new double[]{10, 0, 20, 5, 15});
-        System.out.println(bst.get(15));
+        binaryTreeTest();
     }
-    /*
-    public static void testSingleLinkedList()
+
+    public static void testLinkedList()
     {
         LinkedList<Integer> nums = new LinkedList<>();
         for(int i = 1; i <= 5; ++i)
@@ -73,5 +71,23 @@ public class Tests
         System.out.println(nums);
         System.out.println(nums.peek().equals(nums.getNode(nums.size() - 1).head()));
     }
-    */
+
+    public static void binaryTreeTest()
+    {
+        BinaryTree binaryTree = new BinaryTree();
+        binaryTree.addAll(new double[]{1, 2, 3, 4, 5, 6, -1});
+        System.out.println("Forwards\n");
+        binaryTree.inOrder(binaryTree, true);
+        System.out.println("\nBackwards\n");
+        binaryTree.inOrder(binaryTree, false);
+        System.out.println("\nGet parent\n");
+        try
+        {
+            System.out.println(binaryTree.getParent(binaryTree.get(69)).data());
+        }
+        catch (NullPointerException e)
+        {
+            System.err.println(e);
+        }
+    }
 }

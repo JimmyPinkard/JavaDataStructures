@@ -1,7 +1,6 @@
 
 public class DoublyLinkedList<Type>
-{}
-    /*
+{
     private Type data;
     private DoublyLinkedList<Type> next;
     private DoublyLinkedList<Type> prev;
@@ -151,4 +150,3 @@ public class DoublyLinkedList<Type>
         return index > size || index < 0;
     }
 }
-*/
