@@ -118,6 +118,12 @@ public class LinkedList<Type>
         return list;
     }
 
+    public void deleteList()
+    {
+        next = null;
+        data = null;
+    }
+
     @Override
     public String toString()
     {

@@ -8,8 +8,9 @@ public class Tests
         testLinkedList();
         testDoublyLinkedList();
         testCircularlyLinkedList();
-         */
         binaryTreeTest();
+        stackTest();
+         */
     }
 
     public static void testLinkedList()
@@ -29,6 +30,7 @@ public class Tests
         }
         System.out.println(nums);
         System.out.println(Array.toString(nums.toArray()));
+        nums.deleteList();
     }
 
     public static void testDoublyLinkedList()
@@ -75,9 +77,9 @@ public class Tests
     public static void binaryTreeTest()
     {
         BinaryTree binaryTree = new BinaryTree();
-        binaryTree.addAll(new double[]{1, 2, 3, 4, 5, 6, -1});
+        binaryTree.addAll(new int[]{1, 2, 3, 4, 5, 6, -1});
         System.out.println("Forwards\n");
-        binaryTree.inOrder(binaryTree, true);
+        binaryTree.inOrder(binaryTree);
         System.out.println("\nBackwards\n");
         binaryTree.inOrder(binaryTree, false);
         System.out.println("\nGet parent\n");
@@ -88,6 +90,19 @@ public class Tests
         catch (NullPointerException e)
         {
             System.err.println(e);
+        }
+    }
+
+    public static void stackTest()
+    {
+        final Stack<Integer> stack = new Stack<>(10);
+        for (int i = 10; i <= 100; i += 10)
+        {
+            stack.push(i);
+        }
+        while(!stack.isEmpty())
+        {
+            System.out.println(stack.pop());
         }
     }
 }

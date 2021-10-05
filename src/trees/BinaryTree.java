@@ -3,7 +3,7 @@ package trees;
 //I'm using doubles because it should work for most numeric types
 public class BinaryTree
 {
-    private double data;
+    private int data;
     private BinaryTree left;
     private BinaryTree right;
     public BinaryTree()
@@ -12,7 +12,7 @@ public class BinaryTree
         left = null;
         right = null;
     }
-    public BinaryTree(final double data)
+    public BinaryTree(final int data)
     {
         this.data = data;
         left = null;
@@ -22,7 +22,7 @@ public class BinaryTree
     {
         return data;
     }
-    public BinaryTree get(final double value)
+    public BinaryTree get(final int value)
     {
         BinaryTree tree;
         if(value == data)
@@ -44,7 +44,7 @@ public class BinaryTree
         return tree.get(value);
     }
 
-    public BinaryTree searchAdd(final double value)
+    public BinaryTree searchAdd(final int value)
     {
         BinaryTree tree;
         if(value == data)
@@ -66,7 +66,7 @@ public class BinaryTree
         return tree.searchAdd(value);
     }
 
-    public void add(final double data)
+    public void add(final int data)
     {
         BinaryTree tree = searchAdd(data);
         if(goRight(data, tree))
@@ -77,9 +77,9 @@ public class BinaryTree
         tree.left = new BinaryTree(data);
     }
 
-    public void addAll(final double[] nums)
+    public void addAll(final int[] nums)
     {
-        for(final double num : nums)
+        for(final int num : nums)
         {
             add(num);
         }
@@ -99,24 +99,12 @@ public class BinaryTree
         {
             return right.getParent(child);
         }
-        /*
-        else if(left == null && right == null)
-        {
-            throw new NullPointerException("Does not exist");
-        }
-        */
         return left.getParent(child);
     }
 
     public void inOrder(final BinaryTree node)
     {
-        if(node == null)
-        {
-            return;
-        }
-        inOrder(node.left);
-        System.out.println(node.data);
-        inOrder(node.right);
+        inOrder(node, true);
     }
 
     public void inOrder(final BinaryTree node, final boolean forward)
@@ -141,7 +129,14 @@ public class BinaryTree
         inOrder(node.left, false);
     }
 
-    //Utility function determining whether or not to go right
+    public void deleteTree()
+    {
+        left = null;
+        right = null;
+        data = 0;
+    }
+
+    //Utility function determining whether to go right
     private boolean goRight(final double value, final BinaryTree tree)
     {
         return value > tree.data;
