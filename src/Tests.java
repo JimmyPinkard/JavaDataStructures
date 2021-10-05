@@ -10,7 +10,8 @@ public class Tests
         testCircularlyLinkedList();
         binaryTreeTest();
         stackTest();
-         */
+        queueTest();
+        */
     }
 
     public static void testLinkedList()
@@ -103,6 +104,19 @@ public class Tests
         while(!stack.isEmpty())
         {
             System.out.println(stack.pop());
+        }
+    }
+
+    public static void queueTest()
+    {
+        final Queue<Integer> queue = new Queue<>(10);
+        for (int i = 10; i <= 100; i += 10)
+        {
+            queue.enqueue(i);
+        }
+        while(!queue.isEmpty())
+        {
+            System.out.println(queue.dequeue());
         }
     }
 }
