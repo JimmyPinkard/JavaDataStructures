@@ -31,7 +31,7 @@ public class Queue<Type>
         {
             arr[i] = arr[i + 1];
         }
-        --index;
+        arr[index--] = null;
         return data;
     }
 
