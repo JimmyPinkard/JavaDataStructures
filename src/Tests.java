@@ -11,6 +11,7 @@ public class Tests
         binaryTreeTest();
         stackTest();
         queueTest();
+        testArrayList();
         */
     }
 
@@ -118,5 +119,20 @@ public class Tests
         {
             System.out.println(queue.dequeue());
         }
+    }
+    public static void testArrayList()
+    {
+        List<Integer> nums = new ArrayList<>();
+        for(int i = 1; i <= 5; ++i)
+        {
+            nums.add(i);
+        }
+        System.out.println(nums);
+        nums.set(2, 69);
+        System.out.println(nums.remove(2));
+        System.out.println(nums.get(0) + nums.get(nums.size() - 1));
+        Object[] arr = nums.toArray();
+        System.out.println(Array.toString(arr));
+        nums.destroy();
     }
 }
