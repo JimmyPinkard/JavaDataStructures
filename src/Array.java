@@ -41,13 +41,14 @@ public class Array
     public static <Type> void arrayCopy(final Type[] destination, final Type[] source)
     {
         final int length = source.length;
+        int j = 0;
         for(int i = 0; i < length; ++i)
         {
             if(source[i] == null)
             {
-                return;
+                continue;
             }
-            destination[i] = source[i];
+            destination[j++] = source[i];
         }
     }
 }
