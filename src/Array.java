@@ -11,15 +11,6 @@ public class Array
         contents.append(arr[length - 1]).append("]");
         return contents.toString();
     }
-    public static <Type> List<Type> toList(final Type[] arr)
-    {
-        List<Type> list = new ArrayList<>();
-        for(Type data : arr)
-        {
-            list.add(data);
-        }
-        return list;
-    }
     public static <Type> ArrayList<Type> toArrayList(final Type[] arr)
     {
         ArrayList<Type> list = new ArrayList<>();
