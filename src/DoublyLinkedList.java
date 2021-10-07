@@ -1,5 +1,4 @@
-
-public class DoublyLinkedList<Type>
+public class DoublyLinkedList<Type> implements List<Type>
 {
     private Type data;
     private DoublyLinkedList<Type> next;
@@ -14,6 +13,7 @@ public class DoublyLinkedList<Type>
         size = 0;
     }
 
+    @Override
     public void add(Type data)
     {
         if(this.data == null)
@@ -31,9 +31,10 @@ public class DoublyLinkedList<Type>
         ++size;
     }
 
+    @Override
     public Type remove(final int index) throws IndexOutOfBoundsException
     {
-        if(outOfBounds(index))
+        if(isOutOfBounds(index))
         {
             throw new IndexOutOfBoundsException();
         }
@@ -51,18 +52,20 @@ public class DoublyLinkedList<Type>
         return removed;
     }
 
+    @Override
     public Type get(final int index) throws IndexOutOfBoundsException
     {
-        if(outOfBounds(index))
+        if(isOutOfBounds(index))
         {
             throw new IndexOutOfBoundsException();
         }
         return getNode(index).data;
     }
 
+    @Override
     public void set(final int index, Type data) throws IndexOutOfBoundsException
     {
-        if(outOfBounds(index))
+        if(isOutOfBounds(index))
         {
             throw new IndexOutOfBoundsException();
         }
@@ -99,6 +102,7 @@ public class DoublyLinkedList<Type>
         return data;
     }
 
+    @Override
     public int size()
     {
         return size;
@@ -115,6 +119,8 @@ public class DoublyLinkedList<Type>
         contents.append(get(size - 1)).append("]");
         return contents.toString();
     }
+
+    @Override
     public Type[] toArray()
     {
         Type[] arr = (Type[]) new Object[size];
@@ -127,12 +133,11 @@ public class DoublyLinkedList<Type>
         return arr;
     }
 
-
     //Utility functions
     //Go to the Nth list of the list
     public DoublyLinkedList<Type> getNode(final int index) throws IndexOutOfBoundsException
     {
-        if(outOfBounds(index))
+        if(isOutOfBounds(index))
         {
             throw new IndexOutOfBoundsException();
         }
@@ -144,8 +149,18 @@ public class DoublyLinkedList<Type>
         return current;
     }
 
+    @Override
+    public void destroy()
+    {
+        data = null;
+        next = null;
+        prev = null;
+        size = 0;
+    }
+
     //Checks if an index is in bounds
-    private boolean outOfBounds(int index)
+    @Override
+    public boolean isOutOfBounds(int index)
     {
         return index > size || index < 0;
     }

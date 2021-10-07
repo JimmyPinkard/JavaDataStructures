@@ -1,4 +1,4 @@
-public class CircularlyLinkedList<Type>
+public class CircularlyLinkedList<Type> implements List<Type>
 {
     private Type data;
     private CircularlyLinkedList<Type> head;
@@ -12,6 +12,7 @@ public class CircularlyLinkedList<Type>
         size = 0;
     }
 
+    @Override
     public void add(Type data)
     {
         if(this.data == null)
@@ -29,9 +30,10 @@ public class CircularlyLinkedList<Type>
         ++size;
     }
 
+    @Override
     public Type remove(final int index)
     {
-        if(outOfBounds(index))
+        if(isOutOfBounds(index))
         {
             throw new IndexOutOfBoundsException();
         }
@@ -48,18 +50,20 @@ public class CircularlyLinkedList<Type>
         return removed;
     }
 
+    @Override
     public Type get(final int index)
     {
-        if(outOfBounds(index))
+        if(isOutOfBounds(index))
         {
             throw new IndexOutOfBoundsException();
         }
         return getNode(index).data;
     }
 
+    @Override
     public void set(final int index, Type data)
     {
-        if(outOfBounds(index))
+        if(isOutOfBounds(index))
         {
             throw new IndexOutOfBoundsException();
         }
@@ -96,11 +100,13 @@ public class CircularlyLinkedList<Type>
         return data;
     }
 
+    @Override
     public int size()
     {
         return size;
     }
 
+    @Override
     public Type[] toArray()
     {
         Type[] arr = (Type[]) new Object[size];
@@ -129,7 +135,7 @@ public class CircularlyLinkedList<Type>
     //Go to the Nth list of the list
     public CircularlyLinkedList<Type> getNode(final int index)
     {
-        if(outOfBounds(index))
+        if(isOutOfBounds(index))
         {
             throw new IndexOutOfBoundsException();
         }
@@ -141,8 +147,18 @@ public class CircularlyLinkedList<Type>
         return current;
     }
 
+    @Override
+    public void destroy()
+    {
+        data = null;
+        next = null;
+        head = null;
+        size = 0;
+    }
+
     //Checks if an index is in bounds
-    private boolean outOfBounds(int index)
+    @Override
+    public boolean isOutOfBounds(int index)
     {
         return index > size || index < 0;
     }

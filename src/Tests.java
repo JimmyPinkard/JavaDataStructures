@@ -1,4 +1,4 @@
-import trees.BinaryTree;
+import trees.BinarySearchTree;
 
 public class Tests
 {
@@ -8,7 +8,7 @@ public class Tests
         testLinkedList();
         testDoublyLinkedList();
         testCircularlyLinkedList();
-        binaryTreeTest();
+        binarySearchTreeTest();
         stackTest();
         queueTest();
         testArrayList();
@@ -32,7 +32,7 @@ public class Tests
         }
         System.out.println(nums);
         System.out.println(Array.toString(nums.toArray()));
-        nums.deleteList();
+        nums.destroy();
     }
 
     public static void testDoublyLinkedList()
@@ -76,9 +76,9 @@ public class Tests
         System.out.println(nums.peek().equals(nums.getNode(nums.size() - 1).head()));
     }
 
-    public static void binaryTreeTest()
+    public static void binarySearchTreeTest()
     {
-        BinaryTree binaryTree = new BinaryTree();
+        BinarySearchTree binaryTree = new BinarySearchTree();
         binaryTree.addAll(new int[]{1, 2, 3, 4, 5, 6, -1});
         System.out.println("Forwards\n");
         binaryTree.inOrder(binaryTree);

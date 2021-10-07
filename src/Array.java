@@ -38,6 +38,16 @@ public class Array
         }
         return list;
     }
+    public static <Type> Type[] fromList(List<Type> list)
+    {
+        final int size = list.size();
+        final Type[] arr = (Type[]) new Object[size];
+        for(int i = 0; i < size; ++i)
+        {
+            arr[i] = list.get(i);
+        }
+        return arr;
+    }
     public static <Type> void arrayCopy(final Type[] destination, final Type[] source)
     {
         final int length = source.length;

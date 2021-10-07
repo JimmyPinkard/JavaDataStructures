@@ -1,18 +1,18 @@
 package trees;
 
 //I'm using doubles because it should work for most numeric types
-public class BinaryTree
+public class BinarySearchTree
 {
     private int data;
-    private BinaryTree left;
-    private BinaryTree right;
-    public BinaryTree()
+    private BinarySearchTree left;
+    private BinarySearchTree right;
+    public BinarySearchTree()
     {
         data = 0;
         left = null;
         right = null;
     }
-    public BinaryTree(final int data)
+    public BinarySearchTree(final int data)
     {
         this.data = data;
         left = null;
@@ -22,9 +22,9 @@ public class BinaryTree
     {
         return data;
     }
-    public BinaryTree get(final int value)
+    public BinarySearchTree get(final int value)
     {
-        BinaryTree tree;
+        BinarySearchTree tree;
         if(value == data)
         {
             return this;
@@ -44,9 +44,9 @@ public class BinaryTree
         return tree.get(value);
     }
 
-    public BinaryTree searchAdd(final int value)
+    public BinarySearchTree searchAdd(final int value)
     {
-        BinaryTree tree;
+        BinarySearchTree tree;
         if(value == data)
         {
             return this;
@@ -68,13 +68,13 @@ public class BinaryTree
 
     public void add(final int data)
     {
-        BinaryTree tree = searchAdd(data);
+        BinarySearchTree tree = searchAdd(data);
         if(goRight(data, tree))
         {
-            tree.right = new BinaryTree(data);
+            tree.right = new BinarySearchTree(data);
             return;
         }
-        tree.left = new BinaryTree(data);
+        tree.left = new BinarySearchTree(data);
     }
 
     public void addAll(final int[] nums)
@@ -85,7 +85,7 @@ public class BinaryTree
         }
     }
 
-    public BinaryTree getParent(final BinaryTree child)
+    public BinarySearchTree getParent(final BinarySearchTree child)
     {
         if(goRight(child.data, this) && right.data == child.data)
         {
@@ -102,12 +102,12 @@ public class BinaryTree
         return left.getParent(child);
     }
 
-    public void inOrder(final BinaryTree node)
+    public void inOrder(final BinarySearchTree node)
     {
         inOrder(node, true);
     }
 
-    public void inOrder(final BinaryTree node, final boolean forward)
+    public void inOrder(final BinarySearchTree node, final boolean forward)
     {
         if(forward)
         {
@@ -129,7 +129,7 @@ public class BinaryTree
         inOrder(node.left, false);
     }
 
-    public void deleteTree()
+    public void destroy()
     {
         left = null;
         right = null;
@@ -137,7 +137,7 @@ public class BinaryTree
     }
 
     //Utility function determining whether to go right
-    private boolean goRight(final double value, final BinaryTree tree)
+    private boolean goRight(final double value, final BinarySearchTree tree)
     {
         return value > tree.data;
     }

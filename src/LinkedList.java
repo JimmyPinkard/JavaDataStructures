@@ -1,4 +1,4 @@
-public class LinkedList<Type>
+public class LinkedList<Type> implements List<Type>
 {
     private Type data;
     private LinkedList<Type> next;
@@ -18,6 +18,7 @@ public class LinkedList<Type>
         fromArray(array);
     }
 
+    @Override
     public void add(Type data)
     {
         if(this.data == null)
@@ -34,9 +35,10 @@ public class LinkedList<Type>
         ++size;
     }
 
+    @Override
     public Type remove(final int index)
     {
-        if(outOfBounds(index))
+        if(isOutOfBounds(index))
         {
             throw new IndexOutOfBoundsException();
         }
@@ -53,18 +55,20 @@ public class LinkedList<Type>
         return removed;
     }
 
+    @Override
     public Type get(final int index)
     {
-        if(outOfBounds(index))
+        if(isOutOfBounds(index))
         {
             throw new IndexOutOfBoundsException();
         }
         return getNode(index).data;
     }
 
+    @Override
     public void set(final int index, Type data)
     {
-        if(outOfBounds(index))
+        if(isOutOfBounds(index))
         {
             throw new IndexOutOfBoundsException();
         }
@@ -91,11 +95,13 @@ public class LinkedList<Type>
         return data;
     }
 
+    @Override
     public int size()
     {
         return size;
     }
 
+    @Override
     public Type[] toArray()
     {
         Type[] arr = (Type[]) new Object[size];
@@ -118,10 +124,12 @@ public class LinkedList<Type>
         return list;
     }
 
-    public void deleteList()
+    @Override
+    public void destroy()
     {
         next = null;
         data = null;
+        size = 0;
     }
 
     @Override
@@ -140,7 +148,7 @@ public class LinkedList<Type>
     //Go to the Nth list of the list
     public LinkedList<Type> getNode(final int index)
     {
-        if(outOfBounds(index))
+        if(isOutOfBounds(index))
         {
             throw new IndexOutOfBoundsException();
         }
@@ -153,7 +161,8 @@ public class LinkedList<Type>
     }
 
     //Checks if an index is in bounds
-    private boolean outOfBounds(int index)
+    @Override
+    public boolean isOutOfBounds(int index)
     {
         return index > size || index < 0;
     }
