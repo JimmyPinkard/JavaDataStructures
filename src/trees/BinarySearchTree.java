@@ -1,6 +1,6 @@
 package trees;
 
-//I'm using doubles because it should work for most numeric types
+//I'm using ints because it should work for most numeric types
 public class BinarySearchTree
 {
     private int data;
@@ -17,6 +17,12 @@ public class BinarySearchTree
         this.data = data;
         left = null;
         right = null;
+    }
+    public BinarySearchTree(final BinarySearchTree tree)
+    {
+        data = tree.data;
+        left = tree.left;
+        right = tree.right;
     }
     public double data()
     {
@@ -86,6 +92,7 @@ public class BinarySearchTree
     }
 
     public BinarySearchTree getParent(final BinarySearchTree child)
+
     {
         if(goRight(child.data, this) && right.data == child.data)
         {
@@ -94,6 +101,11 @@ public class BinarySearchTree
         else if(!goRight(child.data, this) && left.data == child.data)
         {
             return this;
+        }
+        //it's the root
+        if(data == child.data)
+        {
+            return null;
         }
         else if(goRight(child.data, this))
         {
@@ -136,10 +148,33 @@ public class BinarySearchTree
         data = 0;
     }
 
+    //Utility function for right rotaiton
+    public void rightRotation()
+    {
+        final BinarySearchTree newRoot = left;
+        final BinarySearchTree rightSub = left.right;
+        final BinarySearchTree parent = getParent(this);
+        if(parent == null)
+        {
+            newRoot.right = this;
+            this.left = rightSub;
+        }
+        else if(isRightChild(parent, this))
+        {
+            //
+        }
+    }
+
     //Utility function determining whether to go right
     private boolean goRight(final double value, final BinarySearchTree tree)
     {
         return value > tree.data;
+    }
+
+    private boolean isRightChild(final BinarySearchTree parent, final BinarySearchTree child)
+    {
+        //Pointer specific that's why I'm not using .equals()
+        return parent.right == child;
     }
 
     //Utility function to check if it's a leaf node

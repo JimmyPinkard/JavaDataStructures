@@ -1,9 +1,11 @@
+import trees.AVLTree;
 import trees.BinarySearchTree;
 
 public class Tests
 {
     public static void main(final String[] args)
     {
+        AVLTreeTest();
         /*
         testLinkedList();
         testDoublyLinkedList();
@@ -93,6 +95,25 @@ public class Tests
         {
             System.err.println(e);
         }
+    }
+
+    public static void AVLTreeTest()
+    {
+        AVLTree avlTree = AVLTree.addAll(new int[]{1, 2, 3, 4, 5, 6});
+        System.out.println("Forwards\n");
+        avlTree.inOrder(avlTree);
+        System.out.println("\nBackwards\n");
+        avlTree.inOrder(avlTree, false);
+        System.out.println("\nGet parent\n");
+        try
+        {
+            System.out.println(avlTree.getParent(avlTree.get(69)).data());
+        }
+        catch (NullPointerException e)
+        {
+            System.err.println(e);
+        }
+        avlTree.destroy();
     }
 
     public static void stackTest()
