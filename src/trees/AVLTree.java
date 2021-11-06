@@ -7,6 +7,8 @@ public class AVLTree
     private AVLTree right;
     private AVLTree parent;
 
+    //Constructors
+
     public AVLTree()
     {
         data = 0;
@@ -42,10 +44,51 @@ public class AVLTree
         right = tree.right;
         parent = tree.parent;
     }
-    public double data()
+
+    //Getters and setters
+
+    public int getData()
     {
         return data;
     }
+
+    public void setData(int data)
+    {
+        this.data = data;
+    }
+
+    public AVLTree getLeft()
+    {
+        return left;
+    }
+
+    public void setLeft(AVLTree left)
+    {
+        this.left = left;
+    }
+
+    public AVLTree getRight()
+    {
+        return right;
+    }
+
+    public void setRight(AVLTree right)
+    {
+        this.right = right;
+    }
+
+    public AVLTree getParent()
+    {
+        return parent;
+    }
+
+    public void setParent(AVLTree parent)
+    {
+        this.parent = parent;
+    }
+
+
+    //Gets the node
     public AVLTree get(final int value)
     {
         AVLTree tree;
@@ -92,23 +135,28 @@ public class AVLTree
 
     public AVLTree add(final int data)
     {
+        AVLTree tree = searchAdd(data);
         //Root node
-        if(isRoot())
+        if(isDefault())
         {
             this.data = data;
             return this;
         }
-        AVLTree tree = searchAdd(data);
+        //Node exists already
+        if(data == tree.data)
+        {
+            System.out.printf("Node %d already exists\n", tree.data);
+            return this;
+        }
         if(goRight(data, tree))
         {
-            tree = tree.balance();
-            tree.right = new AVLTree(data, null, null, tree);
+            tree.right = new AVLTree(data, tree);
         }
         else
         {
-            tree.left = new AVLTree(data, null, null, tree);
-            tree = tree.balance();
+            tree.left = new AVLTree(data, tree);
         }
+        tree = this.balance(this);
         return tree;
     }
 
@@ -122,54 +170,44 @@ public class AVLTree
         return tree;
     }
 
-    //Might delete
-    public AVLTree getParent(final AVLTree child)
-    {
-        if(goRight(child.data, this) && right.data == child.data)
-        {
-            return this;
-        }
-        else if(!goRight(child.data, this) && left.data == child.data)
-        {
-            return this;
-        }
-        //it's the root
-        if(data == child.data)
-        {
-            return null;
-        }
-        else if(goRight(child.data, this))
-        {
-            return right.getParent(child);
-        }
-        return left.getParent(child);
-    }
-
     public void inOrder(final AVLTree node)
     {
-        inOrder(node, true);
-    }
-
-    public void inOrder(final AVLTree node, final boolean forward)
-    {
-        if(forward)
-        {
-            if(node == null)
-            {
-                return;
-            }
-            inOrder(node.left, true);
-            System.out.println(node.data);
-            inOrder(node.right, true);
-            return;
-        }
         if(node == null)
         {
             return;
         }
-        inOrder(node.right, false);
+        inOrder(node.left);
         System.out.println(node.data);
-        inOrder(node.left, false);
+        inOrder(node.right);
+    }
+
+    public void reverseOrder(final AVLTree node)
+    {
+        if(node == null)
+        {
+            return;
+        }
+        reverseOrder(node.right);
+        System.out.println(node.data);
+        reverseOrder(node.left);
+    }
+
+    //Simplicity overload
+    public String toString()
+    {
+        return toString(this, new StringBuilder());
+    }
+
+    public String toString(final AVLTree node, final StringBuilder builder)
+    {
+        if(node == null)
+        {
+            return builder.toString();
+        }
+        builder.append(node.data).append("\n");
+        toString(node.left, builder);
+        toString(node.right, builder);
+        return builder.toString();
     }
 
     public void destroy()
@@ -179,53 +217,85 @@ public class AVLTree
         data = 0;
     }
 
+    /*
     public AVLTree balance()
     {
-        int factor = balanceFactor(this);
-        System.out.println(factor);
         AVLTree tree = this;
+        int factor = balanceFactor(tree);
         if(factor > 1)
         {
-            tree = rightRotation();
+            tree = tree.rightRotation(tree.left);
         }
         else if(factor < -1)
         {
-            tree = leftRotation();
+            tree = tree.leftRotation();
         }
+        tree.left = tree.left.balance();
+        tree.right = tree.right.balance();
+        //To balance the subtrees
+        //tree = tree.balance(tree);
+        return tree;
+    }
+    */
+
+    public AVLTree balance(AVLTree tree)
+    {
+        if(tree == null || tree.isLeaf())
+        {
+            return tree;
+        }
+        int factor = balanceFactor(tree);
+        if(factor > 1)
+        {
+            tree = tree.rightRotation(tree.left);
+        }
+        else if(factor < -1)
+        {
+            tree = tree.leftRotation();
+        }
+        tree.left = balance(tree.left);
+        tree.right = balance(tree.right);
+        //To balance the subtrees
+        //tree = tree.balance(tree);
         return tree;
     }
 
-    public int balanceFactor(AVLTree tree)
+    public int balanceFactor(AVLTree node)
     {
-        if(tree == null)// || (tree.left == null && tree.right == null))
+        //Leaf node
+        if(node == null)
         {
             return 0;
         }
-        int leftHeight = balanceFactor(tree.left);
-        if (leftHeight == -1)
+        int leftHeight = getLeftHeight(node) - 1, rightHeight = getRightHeight(node) - 1;
+        return leftHeight - rightHeight;
+    }
+
+    public int getLeftHeight(AVLTree node)
+    {
+        if(node == null || isLeaf())
         {
-            return -1;
+            return 0;
         }
-        int rightHeight = balanceFactor(tree.right);
-        if(rightHeight == -1)
+        return getLeftHeight(node.left) + 1;
+    }
+
+    public int getRightHeight(AVLTree node)
+    {
+        if(node == null || isLeaf())
         {
-            return -1;
+            return 0;
         }
-        if(Math.abs(leftHeight - rightHeight) > 1)
-        {
-            return -1;
-        }
-        return Math.max(leftHeight, rightHeight) + 1;
+        return getRightHeight(node.right) + 1;
     }
 
     //Utility function for right rotation
-    public AVLTree rightRotation()
+    public AVLTree rightRotation(AVLTree newRoot)
     {
         if(this.left == null)
         {
             return this;
         }
-        final AVLTree newRoot = this.left;
         final AVLTree parent = this.parent;
         this.left.parent = newRoot;
         this.left = newRoot.right;
@@ -278,6 +348,7 @@ public class AVLTree
         return newRoot;
     }
 
+    /*
     public void leftRightRotation()
     {
         leftRotation();
@@ -289,6 +360,7 @@ public class AVLTree
         rightRotation();
         leftRotation();
     }
+    */
 
     //Utility function determining whether to go right
     private boolean goRight(final double value, final AVLTree tree)
@@ -302,14 +374,27 @@ public class AVLTree
         return parent.right == child;
     }
 
+    private boolean isLeftChild(final AVLTree parent, final AVLTree child)
+    {
+        //Pointer specific that's why I'm not using .equals()
+        return parent.left == child;
+    }
+
     //Utility function to check if it's a leaf node
     private boolean isLeaf()
     {
-        return left == null && right == null;
+        return this.left == null && this.right == null;
     }
 
-    private boolean isRoot()
+    //Utility to check if it's the default root node
+    private boolean isDefault()
     {
         return this.parent == null && this.left == null && this.right == null && this.data == 0;
+    }
+
+    //Utility to check if it's the root node
+    private boolean isRoot()
+    {
+        return this.parent == null;
     }
 }

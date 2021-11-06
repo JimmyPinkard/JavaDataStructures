@@ -18,13 +18,19 @@ public class BinarySearchTree
         left = null;
         right = null;
     }
+    public BinarySearchTree(final int data, final BinarySearchTree left, final BinarySearchTree right)
+    {
+        this.data = data;
+        this.left = left;
+        this.right = right;
+    }
     public BinarySearchTree(final BinarySearchTree tree)
     {
-        data = tree.data;
-        left = tree.left;
-        right = tree.right;
+        this.data = tree.data;
+        this.left = tree.left;
+        this.right = tree.right;
     }
-    public double data()
+    public int data()
     {
         return data;
     }
@@ -75,6 +81,12 @@ public class BinarySearchTree
     public void add(final int data)
     {
         BinarySearchTree tree = searchAdd(data);
+        //Node exists already
+        if(data == tree.data)
+        {
+            System.out.printf("Node %d already exists\n", tree.data);
+            return;
+        }
         if(goRight(data, tree))
         {
             tree.right = new BinarySearchTree(data);
@@ -92,7 +104,6 @@ public class BinarySearchTree
     }
 
     public BinarySearchTree getParent(final BinarySearchTree child)
-
     {
         if(goRight(child.data, this) && right.data == child.data)
         {
@@ -148,22 +159,7 @@ public class BinarySearchTree
         data = 0;
     }
 
-    //Utility function for right rotaiton
-    public void rightRotation()
-    {
-        final BinarySearchTree newRoot = left;
-        final BinarySearchTree rightSub = left.right;
-        final BinarySearchTree parent = getParent(this);
-        if(parent == null)
-        {
-            newRoot.right = this;
-            this.left = rightSub;
-        }
-        else if(isRightChild(parent, this))
-        {
-            //
-        }
-    }
+    //Private methods
 
     //Utility function determining whether to go right
     private boolean goRight(final double value, final BinarySearchTree tree)
@@ -172,6 +168,12 @@ public class BinarySearchTree
     }
 
     private boolean isRightChild(final BinarySearchTree parent, final BinarySearchTree child)
+    {
+        //Pointer specific that's why I'm not using .equals()
+        return parent.right == child;
+    }
+
+    private boolean isLeftChild(final BinarySearchTree parent, final BinarySearchTree child)
     {
         //Pointer specific that's why I'm not using .equals()
         return parent.right == child;
