@@ -1,5 +1,3 @@
-package trees;
-
 public class AVLTree
 {
     private int data;
@@ -86,7 +84,6 @@ public class AVLTree
     {
         this.parent = parent;
     }
-
 
     //Gets the node
     public AVLTree get(final int value)
@@ -217,30 +214,9 @@ public class AVLTree
         data = 0;
     }
 
-    /*
-    public AVLTree balance()
-    {
-        AVLTree tree = this;
-        int factor = balanceFactor(tree);
-        if(factor > 1)
-        {
-            tree = tree.rightRotation(tree.left);
-        }
-        else if(factor < -1)
-        {
-            tree = tree.leftRotation();
-        }
-        tree.left = tree.left.balance();
-        tree.right = tree.right.balance();
-        //To balance the subtrees
-        //tree = tree.balance(tree);
-        return tree;
-    }
-    */
-
     public AVLTree balance(AVLTree tree)
     {
-        if(tree == null || tree.isLeaf())
+        if(isNullOrLeaf(tree))
         {
             return tree;
         }
@@ -273,7 +249,7 @@ public class AVLTree
 
     public int getLeftHeight(AVLTree node)
     {
-        if(node == null || isLeaf())
+        if(isNullOrLeaf(node))
         {
             return 0;
         }
@@ -282,7 +258,7 @@ public class AVLTree
 
     public int getRightHeight(AVLTree node)
     {
-        if(node == null || isLeaf())
+        if(isNullOrLeaf(node))
         {
             return 0;
         }
@@ -300,21 +276,7 @@ public class AVLTree
         this.left.parent = newRoot;
         this.left = newRoot.right;
         newRoot.right = this;
-        this.parent = newRoot;
-        newRoot.parent = parent;
-        if(newRoot.parent == null)
-        {
-            return newRoot;
-        }
-        if(parent.left == this)
-        {
-            parent.left = newRoot;
-        }
-        else if(parent.right == this)
-        {
-            parent.right = newRoot;
-        }
-        return newRoot;
+        return setParent(newRoot, parent);
     }
 
     public AVLTree leftRotation()
@@ -331,9 +293,14 @@ public class AVLTree
             this.right.parent = this;
         }
         newRoot.left = this;
+        return setParent(newRoot, parent);
+    }
+
+    private AVLTree setParent(AVLTree newRoot, AVLTree parent)
+    {
         this.parent = newRoot;
         newRoot.parent = parent;
-        if(parent == null)
+        if(newRoot.isRoot())
         {
             return newRoot;
         }
@@ -348,36 +315,16 @@ public class AVLTree
         return newRoot;
     }
 
-    /*
-    public void leftRightRotation()
+    public int getHeight()
     {
-        leftRotation();
-        rightRotation();
+        //Should never take more than this many operations
+        return Math.max(getLeftHeight(this), getRightHeight(this)) + 1;
     }
-
-    public void rightLeftRotation()
-    {
-        rightRotation();
-        leftRotation();
-    }
-    */
 
     //Utility function determining whether to go right
     private boolean goRight(final double value, final AVLTree tree)
     {
         return value > tree.data;
-    }
-
-    private boolean isRightChild(final AVLTree parent, final AVLTree child)
-    {
-        //Pointer specific that's why I'm not using .equals()
-        return parent.right == child;
-    }
-
-    private boolean isLeftChild(final AVLTree parent, final AVLTree child)
-    {
-        //Pointer specific that's why I'm not using .equals()
-        return parent.left == child;
     }
 
     //Utility function to check if it's a leaf node
@@ -386,10 +333,16 @@ public class AVLTree
         return this.left == null && this.right == null;
     }
 
+    //Utility Function
+    private boolean isNullOrLeaf(final AVLTree node)
+    {
+        return node == null || node.isLeaf();
+    }
+
     //Utility to check if it's the default root node
     private boolean isDefault()
     {
-        return this.parent == null && this.left == null && this.right == null && this.data == 0;
+        return this.parent == null && this.isLeaf() && this.data == 0;
     }
 
     //Utility to check if it's the root node

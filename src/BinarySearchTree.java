@@ -1,5 +1,3 @@
-package trees;
-
 //I'm using ints because it should work for most numeric types
 public class BinarySearchTree
 {

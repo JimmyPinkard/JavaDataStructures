@@ -1,11 +1,8 @@
-import trees.AVLTree;
-import trees.BinarySearchTree;
-
 public class Tests
 {
+
     public static void main(final String[] args)
     {
-        AVLTreeTest();
         /*
         testLinkedList();
         testDoublyLinkedList();
@@ -14,6 +11,7 @@ public class Tests
         stackTest();
         queueTest();
         testArrayList();
+        testAVLTree();
         */
     }
 
@@ -90,25 +88,51 @@ public class Tests
         binaryTree.destroy();
     }
 
-    public static void AVLTreeTest()
+    public static void testAVLTree()
     {
         AVLTree avlTree = new AVLTree();
-        for(int i = 1; i <= 100; ++i)
+        int n = 1000, asymptote = balancedHeight(n);
+        System.out.println("We should never do more than " + asymptote + " operations");
+        for(int i = 1; i <= n; ++i)
         {
             avlTree = avlTree.add(i);
         }
-        System.out.println(avlTree);
+        avlTree.inOrder(avlTree);
         //Perfectly balanced as all things should be
-        for(int i = 1; i <= 100; ++i)
+        if(isBalanced(avlTree, n))
         {
-            int factor = avlTree.balanceFactor(avlTree.get(i));
+            System.out.println("\"Perfectly Balanced as all things should be.\"");
+        }
+        System.out.println("\nHeight of the tree: " + avlTree.getHeight());
+        avlTree.destroy();
+    }
+
+    private static boolean isBalanced(final AVLTree tree, final int n)
+    {
+        for(int i = 1; i <= n; ++i)
+        {
+            var node = tree.get(i);
+            int factor = tree.balanceFactor(node);
+            //Becomes unbalanced as n->inf
             if(factor > 1 || factor < -1)
             {
-                System.out.println("Unbalanced");
-                break;
+                System.out.println("Unbalanced at Node: " + node.getData() + " Factor: " + node.balanceFactor(node));
+                return false;
             }
         }
-        avlTree.destroy();
+        return true;
+    }
+
+    //Used for calculating the asymptote
+    private static double logBase(final double base, final double x)
+    {
+        return Math.log(x) / Math.log(base);
+    }
+
+    //Calculates the asymptote
+    private static int balancedHeight(final int n)
+    {
+        return (int)Math.ceil(1.4405 * logBase(2, n + 2) - 1.3277);
     }
 
     public static void stackTest()
