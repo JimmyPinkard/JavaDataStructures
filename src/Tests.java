@@ -3,7 +3,6 @@ public class Tests
 
     public static void main(final String[] args)
     {
-        /*
         testLinkedList();
         testDoublyLinkedList();
         testCircularlyLinkedList();
@@ -12,7 +11,6 @@ public class Tests
         queueTest();
         testArrayList();
         testAVLTree();
-        */
     }
 
     public static void testLinkedList()
@@ -79,12 +77,8 @@ public class Tests
     public static void binarySearchTreeTest()
     {
         BinarySearchTree binaryTree = new BinarySearchTree();
-        binaryTree.addAll(new int[]{1, 2, 3, 4, 5, 6, -1});
-        System.out.println("Forwards\n");
+        binaryTree.addAll(new int[]{1, 2, 3, 4, 5, 6, 7});
         binaryTree.inOrder(binaryTree);
-        System.out.println("\nBackwards\n");
-        binaryTree.inOrder(binaryTree, false);
-        System.out.println("\nGet parent\n");
         binaryTree.destroy();
     }
 

@@ -16,6 +16,10 @@ public class BinarySearchTree
         left = null;
         right = null;
     }
+    public BinarySearchTree(final Integer[] arr)
+    {
+        addAll(arr);
+    }
     public BinarySearchTree(final int data, final BinarySearchTree left, final BinarySearchTree right)
     {
         this.data = data;
@@ -78,6 +82,11 @@ public class BinarySearchTree
 
     public void add(final int data)
     {
+        if(this.isLeaf() && this.data == 0)
+        {
+            this.data = data;
+            return;
+        }
         BinarySearchTree tree = searchAdd(data);
         //Node exists already
         if(data == tree.data)
@@ -96,6 +105,17 @@ public class BinarySearchTree
     public void addAll(final int[] nums)
     {
         for(final int num : nums)
+        {
+            add(num);
+        }
+    }
+    public void addAll(final Integer[] nums)
+    {
+        if(nums == null)
+        {
+            return;
+        }
+        for(final Integer num : nums)
         {
             add(num);
         }

@@ -23,6 +23,26 @@ public class ArrayList<Type> implements List<Type>
         arr[0] = data;
     }
 
+    public void addAll(final Type[] inputs)
+    {
+        if(inputs == null)
+        {
+            return;
+        }
+        size += inputs.length;
+        if(inputs.length == 0)
+        {
+            return;
+        }
+        if(arr == null)
+        {
+            arr = (Type[]) new Object[size];
+            Array.arrayCopy(arr, inputs);
+            return;
+        }
+        arr = Array.arrayCombo(arr, inputs);
+    }
+
     @Override
     public Type remove(final int index)
     {
