@@ -103,7 +103,8 @@ public class AVLTree
         }
         if(tree == null)
         {
-            throw new NullPointerException("Does not exist in tree.");
+            return null;
+            //throw new NullPointerException("Does not exist in tree.");
         }
         return tree.get(value);
     }
@@ -167,6 +168,162 @@ public class AVLTree
         return tree;
     }
 
+
+    public AVLTree delete(final int key)
+    {
+        AVLTree target = get(key), newRoot;
+        if(target == null)
+        {
+            System.err.printf("Key #%d does not exist\n", key);
+            return this;
+        }
+        AVLTree parent = target.parent;
+        if(target.isLeaf())
+        {
+            target.destroy();
+            return this.balance(this);
+        }
+        else if(target.right == null)
+        {
+            newRoot = balance(target.left);
+            target.destroy();
+            if(parent != null)
+            {
+                if(parent.goRight(key, parent))
+                {
+                    parent.right = newRoot;
+                }
+                else
+                {
+                    parent.left = newRoot;
+                }
+                newRoot.parent = parent;
+            }
+            return this.balance(this);
+        }
+        else if(target.left == null)
+        {
+            newRoot = balance(target.right);
+            target.destroy();
+            if(parent != null)
+            {
+                if(parent.goRight(key, parent))
+                {
+                    parent.right = newRoot;
+                }
+                else
+                {
+                    parent.left = newRoot;
+                }
+                newRoot.parent = parent;
+            }
+            return this.balance(this);
+        }
+        newRoot = target.right;
+        newRoot.parent = parent;
+        AVLTree leftMost = getSmallest(newRoot);
+        leftMost.left = target.left;
+        target.destroy();
+        if(parent != null)
+        {
+            System.out.println(parent.left.getData() + " " + parent.right.getData());
+            if(goRight(key, parent))
+            {
+                parent.right = newRoot;
+            }
+            else
+            {
+                parent.left = newRoot;
+            }
+            newRoot.parent = parent;
+        }
+        return balance(this);
+    }
+
+    /*
+    public AVLTree delete(final int key)
+    {
+        AVLTree deletedNode = get(key), newRoot, leftEnd, parent;
+        if(deletedNode == null)
+        {
+            System.err.printf("%d is not in the tree\n", key);
+            return this;
+        }
+        if(deletedNode.isRoot())
+        {
+            if(deletedNode.right != null)
+            {
+                newRoot = deletedNode.right;
+            }
+            else if(deletedNode.left != null)
+            {
+                newRoot = deletedNode.left;
+            }
+            else
+            {
+                deletedNode.destroy();
+                return null;
+            }
+            if(deletedNode.left != null)
+            {
+                leftEnd = getSmallest(newRoot);
+                leftEnd.left = deletedNode.left;
+            }
+            newRoot.parent = null;
+            return newRoot.balance(newRoot);
+        }
+        if(deletedNode.isLeaf())
+        {
+            deletedNode.destroy();
+            return this;
+        }
+        newRoot = deletedNode.right;
+        if(newRoot == null)
+        {
+            newRoot = deletedNode.left;
+        }
+        parent = deletedNode.parent;
+        if(!isNullOrLeaf(newRoot))
+        {
+            leftEnd = getSmallest(deletedNode.right);
+            if(leftEnd == null)
+            {
+                leftEnd = deletedNode.left;
+            }
+            else
+            {
+                leftEnd.left = deletedNode.left;
+            }
+            //newRoot.left = leftEnd;
+        }
+        deletedNode.destroy();
+        if(parent.goRight(key, parent))
+        {
+            parent.right = newRoot;
+        }
+        else
+        {
+            parent.left = newRoot;
+        }
+        parent.balance(parent);
+        return this;
+    }
+    */
+
+    //Returns the leftmost child
+    public AVLTree getSmallest(final AVLTree node)
+    {
+        if(node == null)
+        {
+            return null;
+        }
+        else if(node.left == null)
+        {
+            return node;
+        }
+        return getSmallest(node.left);
+    }
+
     public void inOrder(final AVLTree node)
     {
         if(node == null)
@@ -211,6 +368,7 @@ public class AVLTree
     {
         left = null;
         right = null;
+        this.parent = null;
         data = 0;
     }
 
@@ -273,8 +431,8 @@ public class AVLTree
             return this;
         }
         final AVLTree parent = this.parent;
-        this.left.parent = newRoot;
         this.left = newRoot.right;
+        this.left.parent = newRoot;
         newRoot.right = this;
         return setParent(newRoot, parent);
     }
@@ -285,8 +443,7 @@ public class AVLTree
         {
             return this;
         }
-        final AVLTree newRoot = this.right;
-        final AVLTree parent = this.parent;
+        final AVLTree newRoot = this.right, parent = this.parent;
         this.right = newRoot.left;
         if(newRoot.left != null)
         {

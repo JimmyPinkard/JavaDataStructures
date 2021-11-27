@@ -1,8 +1,8 @@
 public class Tests
 {
-
     public static void main(final String[] args)
     {
+        /*
         testLinkedList();
         testDoublyLinkedList();
         testCircularlyLinkedList();
@@ -11,6 +11,7 @@ public class Tests
         queueTest();
         testArrayList();
         testAVLTree();
+        */
     }
 
     public static void testLinkedList()
@@ -79,29 +80,37 @@ public class Tests
         BinarySearchTree binaryTree = new BinarySearchTree();
         binaryTree.addAll(new int[]{1, 2, 3, 4, 5, 6, 7});
         binaryTree.inOrder(binaryTree);
+        System.out.println("Delete 4\n");
+        BinarySearchTree tree = binaryTree.delete(4);
+        tree.inOrder(tree);
         binaryTree.destroy();
     }
 
     public static void testAVLTree()
     {
         AVLTree avlTree = new AVLTree();
-        int n = 1000, asymptote = balancedHeight(n);
+        int n = 100, asymptote = balancedHeight(n);
         System.out.println("We should never do more than " + asymptote + " operations");
         for(int i = 1; i <= n; ++i)
         {
             avlTree = avlTree.add(i);
         }
-        avlTree.inOrder(avlTree);
-        //Perfectly balanced as all things should be
-        if(isBalanced(avlTree, n))
-        {
-            System.out.println("\"Perfectly Balanced as all things should be.\"");
-        }
         System.out.println("\nHeight of the tree: " + avlTree.getHeight());
+        avlTree.inOrder(avlTree);
+        isBalanced(avlTree, n);
+        System.out.println(avlTree.get(34).getParent());
+        /*
+        for(int i = 1; i <= n; i += 3)
+        {
+            avlTree = avlTree.delete(i);
+        }
+        avlTree.inOrder(avlTree);
+        isBalanced(avlTree, n);
+        */
         avlTree.destroy();
     }
 
-    private static boolean isBalanced(final AVLTree tree, final int n)
+    private static void isBalanced(final AVLTree tree, final int n)
     {
         for(int i = 1; i <= n; ++i)
         {
@@ -111,10 +120,11 @@ public class Tests
             if(factor > 1 || factor < -1)
             {
                 System.out.println("Unbalanced at Node: " + node.getData() + " Factor: " + node.balanceFactor(node));
-                return false;
+                return;
             }
         }
-        return true;
+        //Perfectly balanced as all things should be
+        System.out.println("\"Perfectly Balanced as all things should be.\"");
     }
 
     //Used for calculating the asymptote

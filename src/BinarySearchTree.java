@@ -121,6 +121,38 @@ public class BinarySearchTree
         }
     }
 
+    public BinarySearchTree delete(final int key)
+    {
+        BinarySearchTree deletedNode = get(key), newRoot = deletedNode.right, leftEnd = deletedNode.getSmallest(newRoot);
+        leftEnd.left = deletedNode.left;
+        if(deletedNode == this)
+        {
+            this.destroy();
+            return newRoot;
+        }
+        BinarySearchTree parent = getParent(deletedNode);
+        if(isRightChild(parent, deletedNode))
+        {
+            parent.right = newRoot;
+        }
+        else
+        {
+            parent.left = newRoot;
+        }
+        deletedNode.destroy();
+        return this;
+    }
+
+    //Returns the leftmost child
+    public BinarySearchTree getSmallest(final BinarySearchTree node)
+    {
+        if(node.left == null)
+        {
+            return node;
+        }
+        return getSmallest(node.left);
+    }
+
     public BinarySearchTree getParent(final BinarySearchTree child)
     {
         if(goRight(child.data, this) && right.data == child.data)
@@ -194,7 +226,7 @@ public class BinarySearchTree
     private boolean isLeftChild(final BinarySearchTree parent, final BinarySearchTree child)
     {
         //Pointer specific that's why I'm not using .equals()
-        return parent.right == child;
+        return parent.left == child;
     }
 
     //Utility function to check if it's a leaf node
