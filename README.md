@@ -1,4 +1,7 @@
 # JavaDataStructures
+
+## This was successful, however I'm leaving this up as an example to students who come after me while I develop an algorithms blog.
+
 Practing to test out of CSCE 146
 
 The reasons I'm doing this in Java rather than C or C++ is to prepare to test out of CSCE 146. As much as I would like to take it I must test out of it to graduate on time.
